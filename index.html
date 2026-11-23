@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Buy & Sell General Store | Columbus, OH</title>
+  <style>
+    :root {
+      --green-dark: #163024;
+      --green-main: #1f4433;
+      --green-light: #e8f0ec;
+      --gold: #d49a2a;
+      --gold-hover: #b8821d;
+      --bg: #faf9f6;
+      --surface: #ffffff;
+      --text: #1e2421;
+      --muted: #5c6661;
+      --border: #dfe4e1;
+      --ebay-blue: #0064d2;
+      --fb-blue: #1877f2;
+      --radius: 12px;
+      --shadow: 0 6px 20px rgba(22, 48, 36, 0.08);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+    }
+
+    /* Top Info Bar */
+    .top-bar {
+      background: var(--green-dark);
+      color: #f3f5f4;
+      font-size: 0.85rem;
+      padding: 8px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .top-bar a { color: var(--gold); text-decoration: none; font-weight: 600; }
+
+    /* Sticky Navbar */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--green-dark);
+    }
+    .brand-badge {
+      background: var(--green-main);
+      color: var(--gold);
+      font-weight: 800;
+      padding: 8px 12px;
+      border-radius: 8px;
+      letter-spacing: 0.5px;
+      font-size: 1rem;
+    }
+    .brand-text h1 { font-size: 1.15rem; line-height: 1.1; }
+    .brand-text span { font-size: 0.78rem; color: var(--muted); }
+
+    nav { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; }
+    nav a {
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 600;
+      font-size: 0.92rem;
+    }
+    nav a:hover { color: var(--green-main); }
+
+    .nav-marketplaces { display: flex; gap: 8px; }
+    .pill-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+    }
+    .pill-btn:hover { transform: translateY(-1px); opacity: 0.94; }
+    .btn-gold { background: var(--gold); color: #16221b; }
+    .btn-green { background: var(--green-main); color: #fff; }
+    .btn-ebay { background: var(--ebay-blue); color: #fff; }
+    .btn-fb { background: var(--fb-blue); color: #fff; }
+    .btn-outline { background: transparent; border: 1.5px solid var(--green-main); color: var(--green-main); }
+
+    /* Hero */
+    .hero {
+      background: linear-gradient(135deg, var(--green-dark) 0%, var(--green-main) 100%);
+      color: #fff;
+      padding: 56px 20px;
+    }
+    .hero-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 32px;
+      align-items: center;
+    }
+    .hero h2 { font-size: 2.3rem; line-height: 1.15; margin-bottom: 14px; }
+    .hero p { color: #d8e4de; font-size: 1.05rem; margin-bottom: 24px; max-width: 580px; }
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+    .hero-card {
+      background: rgba(255, 255, 255, 0.09);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: var(--radius);
+      padding: 22px;
+    }
+    .hero-card h3 { color: var(--gold); margin-bottom: 10px; font-size: 1.05rem; }
+    .hero-card ul { list-style: none; font-size: 0.92rem; color: #eef3f0; }
+    .hero-card li { margin-bottom: 8px; }
+
+    /* Search & Section Jump Bar */
+    .filter-bar {
+      max-width: 1200px;
+      margin: -24px auto 24px;
+      padding: 16px 20px;
+      background: var(--surface);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .search-input {
+      flex: 1 1 260px;
+      padding: 10px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.95rem;
+    }
+    .jump-links { display: flex; gap: 8px; flex-wrap: wrap; }
+    .jump-links a {
+      background: var(--green-light);
+      color: var(--green-dark);
+      text-decoration: none;
+      padding: 7px 12px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+    .jump-links a:hover { background: var(--gold); color: #16221b; }
+
+    /* Container & Inventory Sections */
+    .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+    .inventory-section { margin-bottom: 52px; scroll-margin-top: 90px; }
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      border-bottom: 2px solid var(--green-main);
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .section-header h3 { font-size: 1.5rem; color: var(--green-dark); }
+    .section-count { font-size: 0.88rem; color: var(--muted); font-weight: 600; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.15s ease;
+    }
+    .card:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+    .card-img {
+      width: 100%;
+      height: 190px;
+      object-fit: cover;
+      background: #e9ecea;
+    }
+    .card-body { padding: 16px; flex: 1; display: flex; flex-direction: column; }
+    .card-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      font-size: 0.78rem;
+    }
+    .badge-cond {
+      background: var(--green-light);
+      color: var(--green-dark);
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-weight: 700;
+    }
+    .price { font-size: 1.25rem; font-weight: 800; color: var(--green-main); }
+    .card h4 { font-size: 1.05rem; margin-bottom: 6px; }
+    .card p { font-size: 0.88rem; color: var(--muted); margin-bottom: 10px; flex: 1; }
+    .specs { font-size: 0.8rem; color: #3d4742; background: #f4f6f5; padding: 6px 8px; border-radius: 6px; margin-bottom: 12px; }
+    .card-actions { display: flex; flex-direction: column; gap: 7px; }
+    .card-actions a, .card-actions button { width: 100%; justify-content: center; text-align: center; }
+
+    /* Sell To Us & Visit Split */
+    .split-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      margin: 48px 0;
+    }
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 26px;
+      box-shadow: var(--shadow);
+    }
+    .panel h3 { color: var(--green-dark); margin-bottom: 10px; font-size: 1.35rem; }
+    .form-group { margin-bottom: 14px; }
+    .form-group label { display: block; font-size: 0.85rem; font-weight: 700; margin-bottom: 4px; }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 0.92rem;
+    }
+
+    /* Footer */
+    footer {
+      background: var(--green-dark);
+      color: #d8e4de;
+      padding: 40px 20px;
+      margin-top: 60px;
+    }
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+
+    /* Staff Modal */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.55);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .modal-backdrop.open { display: flex; }
+    .modal-box {
+      background: #fff;
+      max-width: 520px;
+      width: 100%;
+      border-radius: var(--radius);
+      padding: 24px;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    @media (max-width: 820px) {
+      .hero-inner, .split-grid { grid-template-columns: 1fr; }
+      .hero h2 { font-size: 1.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Store Info Bar -->
+  <div class="top-bar">
+    <div>📍 <strong>1760 E Dublin-Granville Rd, Columbus, OH 43229</strong>  |  🕒 Open Daily: 10:30 AM – 7:30 PM</div>
+    <div>📞 Call / Text: <a href="tel:6148825566">(614) 882-5566</a></div>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <div class="nav-wrap">
+      <a href="#" class="brand">
+        <div class="brand-badge">B&S</div>
+        <div class="brand-text">
+          <h1>Buy & Sell General Store</h1>
+          <span>Columbus Resale & Liquidation</span>
+        </div>
+      </a>
+
+      <nav>
+        <a href="#sec-furniture">Furniture</a>
+        <a href="#sec-electronics">Electronics</a>
+        <a href="#sec-appliances">Appliances</a>
+        <a href="#sec-clothing">Clothing</a>
+        <a href="#sell-visit">Sell To Us</a>
+      </nav>
+
+      <div class="nav-marketplaces">
+        <!-- REPLACE WITH STORE EBAY & FACEBOOK URLS -->
+        <a id="store-ebay-link" href="https://www.ebay.com" target="_blank" rel="noopener" class="pill-btn btn-ebay">eBay Store</a>
+        <a id="store-fb-link" href="https://www.facebook.com/marketplace" target="_blank" rel="noopener" class="pill-btn btn-fb">FB Marketplace</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div>
+        <h2>Quality Pre-Owned & Overstock Deals in North Columbus</h2>
+        <p>Browse our live in-store inventory separated by department. Buy directly in person on E Dublin-Granville Rd, message us on Facebook Marketplace, or order shipped items through our eBay store.</p>
+        <div class="hero-actions">
+          <a href="#sec-furniture" class="pill-btn btn-gold">Browse Live Inventory</a>
+          <a href="#sell-visit" class="pill-btn btn-outline" style="border-color:#fff; color:#fff;">Sell / Trade With Us</a>
+        </div>
+      </div>
+      <div class="hero-card">
+        <h3>Why Shop & Sell With Us</h3>
+        <ul>
+          <li>✅ <strong>New Inventory Daily:</strong> Furniture, electronics, appliances & fashion.</li>
+          <li>✅ <strong>Tested & Verified:</strong> Electronics and appliances powered on and checked.</li>
+          <li>✅ <strong>Fast Cash or Trade:</strong> Bring items in during store hours for an instant offer.</li>
+          <li>✅ <strong>Multi-Channel Convenience:</strong> Local pickup, Facebook Marketplace, or eBay shipping.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Search & Quick Jump -->
+  <div class="container">
+    <div class="filter-bar">
+      <input type="search" id="searchInput" class="search-input" placeholder="Search live inventory by item, brand, or keyword..." />
+      <div class="jump-links">
+        <a href="#sec-furniture">🛋️ Furniture</a>
+        <a href="#sec-electronics">🎮 Electronics</a>
+        <a href="#sec-appliances">🧺 Appliances</a>
+        <a href="#sec-clothing">👟 Clothing</a>
+      </div>
+    </div>
+
+    <!-- 4 Categorized Inventory Sections -->
+    <section id="sec-furniture" class="inventory-section">
+      <div class="section-header">
+        <h3>Furniture & Home Decor</h3>
+        <span class="section-count" id="count-Furniture">Loading...</span>
+      </div>
+      <div class="grid" id="grid-Furniture"></div>
+    </section>
+
+    <section id="sec-electronics" class="inventory-section">
+      <div class="section-header">
+        <h3>Electronics & Gaming</h3>
+        <span class="section-count" id="count-Electronics">Loading...</span>
+      </div>
+      <div class="grid" id="grid-Electronics"></div>
+    </section>
+
+    <section id="sec-appliances" class="inventory-section">
+      <div class="section-header">
+        <h3>Commercial & Home Appliances</h3>
+        <span class="section-count" id="count-Appliances">Loading...</span>
+      </div>
+      <div class="grid" id="grid-Appliances"></div>
+    </section>
+
+    <section id="sec-clothing" class="inventory-section">
+      <div class="section-header">
+        <h3>Clothing, Shoes & Accessories</h3>
+        <span class="section-count" id="count-Clothing">Loading...</span>
+      </div>
+      <div class="grid" id="grid-Clothing"></div>
+    </section>
+
+    <!-- Sell To Us & Visit Us -->
+    <section id="sell-visit" class="split-grid">
+      <div class="panel">
+        <h3>Sell or Trade Your Items</h3>
+        <p style="font-size:0.92rem; color:var(--muted); margin-bottom:14px;">
+          We buy clean furniture, working electronics, home & commercial appliances, and name-brand apparel. Submit details below for a quick estimate or stop by our counter.
+        </p>
+        <form id="sellerLeadForm">
+          <div class="form-group">
+            <label>Your Name</label>
+            <input type="text" id="leadName" required placeholder="Alex Johnson" />
+          </div>
+          <div class="form-group">
+            <label>Phone Number or Email</label>
+            <input type="text" id="leadContact" required placeholder="(614) 555-0199" />
+          </div>
+          <div class="form-group">
+            <label>Department</label>
+            <select id="leadCategory">
+              <option value="Furniture">Furniture & Home Decor</option>
+              <option value="Electronics">Electronics & Gaming</option>
+              <option value="Appliances">Commercial & Home Appliances</option>
+              <option value="Clothing">Clothing, Shoes & Accessories</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Item Details & Condition</label>
+            <textarea id="leadDetails" rows="3" required placeholder="Brand, model, condition, and asking price..."></textarea>
+          </div>
+          <button type="submit" class="pill-btn btn-green" style="width:100%; justify-content:center;">Send Offer Request</button>
+          <p id="leadStatus" style="font-size:0.85rem; margin-top:8px; font-weight:600;"></p>
+        </form>
+      </div>
+
+      <div class="panel">
+        <h3>Visit Our Columbus Showroom</h3>
+        <p style="margin-bottom:10px;"><strong>Address:</strong> 1760 E Dublin-Granville Rd, Columbus, OH 43229</p>
+        <p style="margin-bottom:10px;"><strong>Hours:</strong> Monday – Sunday, 10:30 AM – 7:30 PM</p>
+        <p style="margin-bottom:14px;"><strong>Phone:</strong> <a href="tel:6148825566" style="color:var(--green-main); font-weight:700;">(614) 882-5566</a></p>
+        <iframe
+          title="Buy and Sell General Store Map"
+          width="100%"
+          height="250"
+          style="border:0; border-radius:8px;"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          src="https://www.google.com/maps?q=1760+E+Dublin+Granville+Rd,+Columbus,+OH+43229&output=embed">
+        </iframe>
+      </div>
+    </section>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <h4 style="color:var(--gold); margin-bottom:6px;">Buy & Sell General Store</h4>
+        <p style="font-size:0.9rem;">1760 E Dublin-Granville Rd, Columbus, OH 43229</p>
+        <p style="font-size:0.9rem;">Open Daily 10:30 AM – 7:30 PM • (614) 882-5566</p>
+      </div>
+      <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+        <a href="https://www.ebay.com" target="_blank" rel="noopener" class="pill-btn btn-ebay">Shop eBay</a>
+        <a href="https://www.facebook.com/marketplace" target="_blank" rel="noopener" class="pill-btn btn-fb">Shop Facebook</a>
+        <button id="openStaffBtn" class="pill-btn btn-gold">+ Staff Intake</button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Staff Intake Modal -->
+  <div class="modal-backdrop" id="staffModal">
+    <div class="modal-box">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+        <h3 style="color:var(--green-dark);">Staff Quick Intake & Cross-List</h3>
+        <button id="closeStaffBtn" style="border:none; background:none; font-size:1.4rem; cursor:pointer;">×</button>
+      </div>
+      <form id="staffIntakeForm">
+        <div class="form-group">
+          <label>Item Title</label>
+          <input type="text" id="inTitle" required placeholder="e.g., Samsung 55-Inch 4K Smart TV" />
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+          <div class="form-group">
+            <label>Section</label>
+            <select id="inSection">
+              <option value="Furniture">Furniture</option>
+              <option value="Electronics">Electronics</option>
+              <option value="Appliances">Appliances</option>
+              <option value="Clothing">Clothing</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Condition</label>
+            <select id="inCondition">
+              <option value="Like New">Like New</option>
+              <option value="Good">Good</option>
+              <option value="Fair">Fair</option>
+              <option value="Vintage">Vintage</option>
+            </select>
+          </div>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+          <div class="form-group">
+            <label>Price ($)</label>
+            <input type="number" id="inPrice" required placeholder="149" />
+          </div>
+          <div class="form-group">
+            <label>Specs / Size / Model</label>
+            <input type="text" id="inSpecs" placeholder="Model UN55 / Tested OK" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <textarea id="inDesc" rows="2" placeholder="Includes remote and power cord..."></textarea>
+        </div>
+        <div class="form-group">
+          <label>Photo URL (Google Drive Share Link or Direct Image)</label>
+          <input type="url" id="inImg" placeholder="https://drive.google.com/file/d/..." />
+        </div>
+        <div class="form-group">
+          <label>eBay Listing URL (Optional)</label>
+          <input type="url" id="inEbay" placeholder="https://www.ebay.com/itm/..." />
+        </div>
+        <div class="form-group">
+          <label>Facebook Marketplace URL (Optional)</label>
+          <input type="url" id="inFb" placeholder="https://www.facebook.com/marketplace/item/..." />
+        </div>
+
+        <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:12px;">
+          <button type="button" id="copyListingBtn" class="pill-btn btn-outline" style="flex:1; justify-content:center;">📋 Copy eBay/FB Text</button>
+          <button type="submit" class="pill-btn btn-green" style="flex:1; justify-content:center;">Save to Storefront</button>
+        </div>
+        <p id="staffStatus" style="font-size:0.85rem; margin-top:8px; font-weight:600;"></p>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyy12M6nYXGYoC9OiUMC2JuiZiS948ii_iKLX0j4D2Sn_hpJH4sDv8GUwQ4IB2oq7m4Ig/exec";
+
+    // Fallback starter items displayed only if the Google Sheet Inventory tab has 0 rows yet
+    const SAMPLE_ITEMS = [
+      {
+        Item_ID: "BS-101",
+        Title: "Mid-Century Oak Dining Table + 4 Chairs",
+        Section: "Furniture",
+        Condition: "Good",
+        Price: 240,
+        Status: "Available",
+        Description: "Solid wood dining set with minor surface wear. Sturdy joints, ready for pickup.",
+        Specs: "60\" L x 36\" W | Local Pickup",
+        Image_URL: "https://images.unsplash.com/photo-1577140917170-285929fb55b7?auto=format&fit=crop&w=600&q=80",
+        eBay_URL: "",
+        FB_URL: "https://www.facebook.com/marketplace"
+      },
+      {
+        Item_ID: "BS-102",
+        Title: "PlayStation 5 Disc Edition Console Bundle",
+        Section: "Electronics",
+        Condition: "Like New",
+        Price: 365,
+        Status: "Available",
+        Description: "Tested in-store. Includes DualSense wireless controller, HDMI, and power cable.",
+        Specs: "825GB SSD | Tested & Reset",
+        Image_URL: "https://images.unsplash.com/photo-1606813907291-d86efa9b94db?auto=format&fit=crop&w=600&q=80",
+        eBay_URL: "https://www.ebay.com",
+        FB_URL: "https://www.facebook.com/marketplace"
+      },
+      {
+        Item_ID: "BS-103",
+        Title: "Whirlpool Front-Load Washer & Dryer Pair",
+        Section: "Appliances",
+        Condition: "Good",
+        Price: 495,
+        Status: "Available",
+        Description: "Clean, high-efficiency laundry pair. Powered on and verified working.",
+        Specs: "Electric Dryer | 30-Day Store Guarantee",
+        Image_URL: "https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?auto=format&fit=crop&w=600&q=80",
+        eBay_URL: "",
+        FB_URL: "https://www.facebook.com/marketplace"
+      },
+      {
+        Item_ID: "BS-104",
+        Title: "Vintage Carhartt Detroit Canvas Work Jacket",
+        Section: "Clothing",
+        Condition: "Vintage",
+        Price: 85,
+        Status: "Available",
+        Description: "Heavyweight duck canvas with blanket lining and corduroy collar.",
+        Specs: "Size Men's Large | Color: Brown",
+        Image_URL: "https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=600&q=80",
+        eBay_URL: "https://www.ebay.com",
+        FB_URL: ""
+      }
+    ];
+
+    let allItems = [];
+
+    async function loadInventory() {
+      try {
+        const res = await fetch(APPS_SCRIPT_URL);
+        const data = await res.json();
+        allItems = (data.items && data.items.length) ? data.items : SAMPLE_ITEMS;
+      } catch (err) {
+        console.error("Failed to fetch Google Sheet:", err);
+        allItems = SAMPLE_ITEMS;
+      }
+      renderSections(allItems);
+    }
+
+    function renderSections(items) {
+      const sections = ["Furniture", "Electronics", "Appliances", "Clothing"];
+      sections.forEach(sec => {
+        const grid = document.getElementById(`grid-${sec}`);
+        const countEl = document.getElementById(`count-${sec}`);
+        const filtered = items.filter(i => String(i.Section).toLowerCase() === sec.toLowerCase());
+        countEl.textContent = `${filtered.length} item${filtered.length === 1 ? "" : "s"}`;
+
+        if (!filtered.length) {
+          grid.innerHTML = `<p style="color:var(--muted); font-size:0.9rem;">No matching items currently listed in ${sec}.</p>`;
+          return;
+        }
+
+        grid.innerHTML = filtered.map(item => {
+          const img = item.Image_URL || "https://via.placeholder.com/600x400?text=Buy+%26+Sell+General+Store";
+          const ebayBtn = item.eBay_URL
+            ? `<a href="${item.eBay_URL}" target="_blank" rel="noopener" class="pill-btn btn-ebay">Buy on eBay</a>`
+            : "";
+          const fbBtn = item.FB_URL
+            ? `<a href="${item.FB_URL}" target="_blank" rel="noopener" class="pill-btn btn-fb">View on FB Marketplace</a>`
+            : "";
+          const holdText = encodeURIComponent(`Hi! Is "${item.Title}" ($${item.Price}) still available at 1760 E Dublin-Granville Rd?`);
+
+          return `
+            <article class="card">
+              <img class="card-img" src="${img}" alt="${item.Title}" loading="lazy" />
+              <div class="card-body">
+                <div class="card-meta">
+                  <span class="badge-cond">${item.Condition || "Good"}</span>
+                  <span class="price">$${item.Price}</span>
+                </div>
+                <h4>${item.Title}</h4>
+                <p>${item.Description || ""}</p>
+                ${item.Specs ? `<div class="specs">${item.Specs}</div>` : ""}
+                <div class="card-actions">
+                  ${ebayBtn}
+                  ${fbBtn}
+                  <a href="sms:6148825566?&body=${holdText}" class="pill-btn btn-gold">Text to Hold In-Store</a>
+                </div>
+              </div>
+            </article>
+          `;
+        }).join("");
+      });
+    }
+
+    // Live Search Filter
+    document.getElementById("searchInput").addEventListener("input", (e) => {
+      const q = e.target.value.toLowerCase().trim();
+      const matches = allItems.filter(item =>
+        (item.Title || "").toLowerCase().includes(q) ||
+        (item.Description || "").toLowerCase().includes(q) ||
+        (item.Specs || "").toLowerCase().includes(q)
+      );
+      renderSections(matches);
+    });
+
+    // Sell To Us Form
+    document.getElementById("sellerLeadForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const statusEl = document.getElementById("leadStatus");
+      statusEl.textContent = "Sending...";
+      const payload = {
+        action: "seller_lead",
+        name: document.getElementById("leadName").value,
+        contact: document.getElementById("leadContact").value,
+        category: document.getElementById("leadCategory").value,
+        details: document.getElementById("leadDetails").value
+      };
+
+      await fetch(APPS_SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        body: JSON.stringify(payload)
+      });
+      statusEl.textContent = "✅ Request sent! Our team will reach out shortly.";
+      e.target.reset();
+    });
+
+    // Staff Modal Controls
+    const staffModal = document.getElementById("staffModal");
+    document.getElementById("openStaffBtn").onclick = () => staffModal.classList.add("open");
+    document.getElementById("closeStaffBtn").onclick = () => staffModal.classList.remove("open");
+
+    // One-Click Copy Helper for eBay / Facebook Marketplace
+    document.getElementById("copyListingBtn").onclick = () => {
+      const title = document.getElementById("inTitle").value || "Item Title";
+      const price = document.getElementById("inPrice").value || "0";
+      const cond = document.getElementById("inCondition").value;
+      const specs = document.getElementById("inSpecs").value;
+      const desc = document.getElementById("inDesc").value;
+
+      const text = `${title} - $${price}\nCondition: ${cond}\n${specs ? "Details: " + specs + "\n" : ""}${desc}\n\nAvailable at Buy & Sell General Store\n1760 E Dublin-Granville Rd, Columbus, OH 43229\nOpen Daily 10:30 AM - 7:30 PM | (614) 882-5566`;
+      navigator.clipboard.writeText(text);
+      document.getElementById("staffStatus").textContent = "📋 Listing copied! Ready to paste into eBay or Facebook Marketplace.";
+    };
+
+    // Staff Intake Submit
+    document.getElementById("staffIntakeForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const statusEl = document.getElementById("staffStatus");
+      const newItem = {
+        action: "add_item",
+        title: document.getElementById("inTitle").value,
+        section: document.getElementById("inSection").value,
+        condition: document.getElementById("inCondition").value,
+        price: document.getElementById("inPrice").value,
+        specs: document.getElementById("inSpecs").value,
+        description: document.getElementById("inDesc").value,
+        imageUrl: document.getElementById("inImg").value,
+        ebayUrl: document.getElementById("inEbay").value,
+        fbUrl: document.getElementById("inFb").value
+      };
+
+      // Optimistically render immediately on screen
+      allItems.unshift({
+        Title: newItem.title,
+        Section: newItem.section,
+        Condition: newItem.condition,
+        Price: newItem.price,
+        Specs: newItem.specs,
+        Description: newItem.description,
+        Image_URL: newItem.imageUrl,
+        eBay_URL: newItem.ebayUrl,
+        FB_URL: newItem.fbUrl
+      });
+      renderSections(allItems);
+
+      statusEl.textContent = "Saving to Google Sheet...";
+      await fetch(APPS_SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        body: JSON.stringify(newItem)
+      });
+      statusEl.textContent = "✅ Saved to Google Sheet & live on storefront!";
+      e.target.reset();
+    });
+
+    loadInventory();
+  </script>
+</body>
+</html>
