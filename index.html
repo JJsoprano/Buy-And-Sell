@@ -545,6 +545,8 @@
 
   <script>
     const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyy12M6nYXGYoC9OiUMC2JuiZiS948ii_iKLX0j4D2Sn_hpJH4sDv8GUwQ4IB2oq7m4Ig/exec";
+    const STAFF_PIN = "1760";
+    let activeStaffPin = sessionStorage.getItem("bs_staff_pin") || "";
 
     // Fallback starter items displayed only if the Google Sheet Inventory tab has 0 rows yet
     const SAMPLE_ITEMS = [
@@ -695,9 +697,23 @@
       e.target.reset();
     });
 
-    // Staff Modal Controls
+    // Staff Modal Controls with PIN Gate
     const staffModal = document.getElementById("staffModal");
-    document.getElementById("openStaffBtn").onclick = () => staffModal.classList.add("open");
+    document.getElementById("openStaffBtn").onclick = () => {
+      if (activeStaffPin === STAFF_PIN) {
+        staffModal.classList.add("open");
+        return;
+      }
+      const entered = prompt("Enter Staff PIN to access Inventory Intake:");
+      if (entered === null) return;
+      if (entered.trim() === STAFF_PIN) {
+        activeStaffPin = STAFF_PIN;
+        sessionStorage.setItem("bs_staff_pin", STAFF_PIN);
+        staffModal.classList.add("open");
+      } else {
+        alert("Incorrect Staff PIN.");
+      }
+    };
     document.getElementById("closeStaffBtn").onclick = () => staffModal.classList.remove("open");
 
     // One-Click Copy Helper for eBay / Facebook Marketplace
@@ -713,12 +729,13 @@
       document.getElementById("staffStatus").textContent = "📋 Listing copied! Ready to paste into eBay or Facebook Marketplace.";
     };
 
-    // Staff Intake Submit
+    // Staff Intake Submit (sends PIN with payload)
     document.getElementById("staffIntakeForm").addEventListener("submit", async (e) => {
       e.preventDefault();
       const statusEl = document.getElementById("staffStatus");
       const newItem = {
         action: "add_item",
+        pin: activeStaffPin,
         title: document.getElementById("inTitle").value,
         section: document.getElementById("inSection").value,
         condition: document.getElementById("inCondition").value,
@@ -730,7 +747,6 @@
         fbUrl: document.getElementById("inFb").value
       };
 
-      // Optimistically render immediately on screen
       allItems.unshift({
         Title: newItem.title,
         Section: newItem.section,
