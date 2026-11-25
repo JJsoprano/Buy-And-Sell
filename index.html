@@ -333,9 +333,8 @@
       </nav>
 
       <div class="nav-marketplaces">
-        <!-- REPLACE WITH STORE EBAY & FACEBOOK URLS -->
         <a id="store-ebay-link" href="https://www.ebay.com" target="_blank" rel="noopener" class="pill-btn btn-ebay">eBay Store</a>
-        <a id="store-fb-link" href="https://www.facebook.com/marketplace" target="_blank" rel="noopener" class="pill-btn btn-fb">FB Marketplace</a>
+        <a id="store-fb-link" href="https://www.facebook.com/profile.php?id=61589305727330" target="_blank" rel="noopener" class="pill-btn btn-fb">FB Marketplace</a>
       </div>
     </div>
   </header>
@@ -413,16 +412,22 @@
       <div class="panel">
         <h3>Hold an Item or Sell / Trade With Us</h3>
         <p style="font-size:0.92rem; color:var(--muted); margin-bottom:14px;">
-          Want us to hold an item in-store or get a quote on furniture, electronics, appliances, or apparel? Submit your details below and our counter team will follow up right away.
+          Want us to hold an item in-store or get a quote on furniture, electronics, appliances, or apparel? Submit your details below to receive an instant email confirmation.
         </p>
         <form id="sellerLeadForm">
           <div class="form-group">
-            <label>Your Name</label>
+            <label>Your Name *</label>
             <input type="text" id="leadName" required placeholder="Alex Johnson" />
           </div>
-          <div class="form-group">
-            <label>Phone Number or Email</label>
-            <input type="text" id="leadContact" required placeholder="(614) 555-0199" />
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+            <div class="form-group">
+              <label>Email Address * (For Confirmation)</label>
+              <input type="email" id="leadEmail" required placeholder="alex@example.com" />
+            </div>
+            <div class="form-group">
+              <label>Phone Number (Optional)</label>
+              <input type="tel" id="leadPhone" placeholder="(614) 555-0199" />
+            </div>
           </div>
           <div class="form-group">
             <label>Department</label>
@@ -434,7 +439,7 @@
             </select>
           </div>
           <div class="form-group">
-            <label>Item Details (Hold Request or Item to Sell)</label>
+            <label>Item Details (Hold Request or Item to Sell) *</label>
             <textarea id="leadDetails" rows="3" required placeholder="Item name, brand/model, condition, or hold request..."></textarea>
           </div>
           <button type="submit" class="pill-btn btn-green" style="width:100%; justify-content:center;">Send Request to Store</button>
@@ -475,7 +480,7 @@
       </div>
       <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
         <a href="https://www.ebay.com" target="_blank" rel="noopener" class="pill-btn btn-ebay">Shop eBay</a>
-        <a href="https://www.facebook.com/marketplace" target="_blank" rel="noopener" class="pill-btn btn-fb">Shop Facebook</a>
+        <a href="https://www.facebook.com/profile.php?id=61589305727330" target="_blank" rel="noopener" class="pill-btn btn-fb">Shop Facebook</a>
         <button id="openStaffBtn" class="pill-btn btn-gold">+ Staff Intake</button>
       </div>
     </div>
@@ -567,7 +572,7 @@
         Specs: "60\" L x 36\" W | Local Pickup",
         Image_URL: "https://images.unsplash.com/photo-1577140917170-285929fb55b7?auto=format&fit=crop&w=600&q=80",
         eBay_URL: "",
-        FB_URL: "https://www.facebook.com/marketplace"
+        FB_URL: "https://www.facebook.com/profile.php?id=61589305727330"
       },
       {
         Item_ID: "BS-102",
@@ -580,7 +585,7 @@
         Specs: "825GB SSD | Tested & Reset",
         Image_URL: "https://images.unsplash.com/photo-1606813907291-d86efa9b94db?auto=format&fit=crop&w=600&q=80",
         eBay_URL: "https://www.ebay.com",
-        FB_URL: "https://www.facebook.com/marketplace"
+        FB_URL: "https://www.facebook.com/profile.php?id=61589305727330"
       },
       {
         Item_ID: "BS-103",
@@ -593,7 +598,7 @@
         Specs: "Electric Dryer | 30-Day Store Guarantee",
         Image_URL: "https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?auto=format&fit=crop&w=600&q=80",
         eBay_URL: "",
-        FB_URL: "https://www.facebook.com/marketplace"
+        FB_URL: "https://www.facebook.com/profile.php?id=61589305727330"
       },
       {
         Item_ID: "BS-104",
@@ -694,17 +699,22 @@
       renderSections(matches);
     });
 
-    // Sell / Hold Request Form
+    // Sell / Hold Request Form (Email Required + Optional Phone)
     document.getElementById("sellerLeadForm").addEventListener("submit", async (e) => {
       e.preventDefault();
       const statusEl = document.getElementById("leadStatus");
       statusEl.textContent = "Sending...";
+      const emailVal = document.getElementById("leadEmail").value.trim();
+      const phoneVal = document.getElementById("leadPhone").value.trim();
+
       const payload = {
         action: "seller_lead",
-        name: document.getElementById("leadName").value,
-        contact: document.getElementById("leadContact").value,
+        name: document.getElementById("leadName").value.trim(),
+        email: emailVal,
+        phone: phoneVal,
+        contact: phoneVal ? `${emailVal} | ${phoneVal}` : emailVal,
         category: document.getElementById("leadCategory").value,
-        details: document.getElementById("leadDetails").value
+        details: document.getElementById("leadDetails").value.trim()
       };
 
       await fetch(APPS_SCRIPT_URL, {
@@ -712,7 +722,7 @@
         mode: "no-cors",
         body: JSON.stringify(payload)
       });
-      statusEl.textContent = "✅ Request sent! Our team will reach out shortly.";
+      statusEl.textContent = "✅ Request received! Check your email for confirmation.";
       e.target.reset();
     });
 
