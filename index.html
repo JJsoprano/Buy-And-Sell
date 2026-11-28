@@ -559,76 +559,19 @@
     const STAFF_PIN = "1760";
     let activeStaffPin = sessionStorage.getItem("bs_staff_pin") || "";
 
-    // Fallback starter items displayed only if the Google Sheet Inventory tab has 0 rows yet
-    const SAMPLE_ITEMS = [
-      {
-        Item_ID: "BS-101",
-        Title: "Mid-Century Oak Dining Table + 4 Chairs",
-        Section: "Furniture",
-        Condition: "Good",
-        Price: 240,
-        Status: "Available",
-        Description: "Solid wood dining set with minor surface wear. Sturdy joints, ready for pickup.",
-        Specs: "60\" L x 36\" W | Local Pickup",
-        Image_URL: "https://images.unsplash.com/photo-1577140917170-285929fb55b7?auto=format&fit=crop&w=600&q=80",
-        eBay_URL: "",
-        FB_URL: "https://www.facebook.com/profile.php?id=61589305727330"
-      },
-      {
-        Item_ID: "BS-102",
-        Title: "PlayStation 5 Disc Edition Console Bundle",
-        Section: "Electronics",
-        Condition: "Like New",
-        Price: 365,
-        Status: "Available",
-        Description: "Tested in-store. Includes DualSense wireless controller, HDMI, and power cable.",
-        Specs: "825GB SSD | Tested & Reset",
-        Image_URL: "https://images.unsplash.com/photo-1606813907291-d86efa9b94db?auto=format&fit=crop&w=600&q=80",
-        eBay_URL: "https://www.ebay.com",
-        FB_URL: "https://www.facebook.com/profile.php?id=61589305727330"
-      },
-      {
-        Item_ID: "BS-103",
-        Title: "Whirlpool Front-Load Washer & Dryer Pair",
-        Section: "Appliances",
-        Condition: "Good",
-        Price: 495,
-        Status: "Available",
-        Description: "Clean, high-efficiency laundry pair. Powered on and verified working.",
-        Specs: "Electric Dryer | 30-Day Store Guarantee",
-        Image_URL: "https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?auto=format&fit=crop&w=600&q=80",
-        eBay_URL: "",
-        FB_URL: "https://www.facebook.com/profile.php?id=61589305727330"
-      },
-      {
-        Item_ID: "BS-104",
-        Title: "Vintage Carhartt Detroit Canvas Work Jacket",
-        Section: "Clothing",
-        Condition: "Vintage",
-        Price: 85,
-        Status: "Available",
-        Description: "Heavyweight duck canvas with blanket lining and corduroy collar.",
-        Specs: "Size Men's Large | Color: Brown",
-        Image_URL: "https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=600&q=80",
-        eBay_URL: "https://www.ebay.com",
-        FB_URL: ""
-      }
-    ];
-
     let allItems = [];
 
     async function loadInventory() {
       try {
         const res = await fetch(APPS_SCRIPT_URL);
         const data = await res.json();
-        allItems = (data.items && data.items.length) ? data.items : SAMPLE_ITEMS;
+        allItems = (data.items && data.items.length) ? data.items : [];
       } catch (err) {
         console.error("Failed to fetch Google Sheet:", err);
-        allItems = SAMPLE_ITEMS;
+        allItems = [];
       }
       renderSections(allItems);
     }
-
     function renderSections(items) {
       const sections = ["Furniture", "Electronics", "Appliances", "Clothing"];
       sections.forEach(sec => {
