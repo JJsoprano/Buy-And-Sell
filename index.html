@@ -572,6 +572,7 @@
       }
       renderSections(allItems);
     }
+
     function formatImageUrl(url) {
       if (!url) return "https://via.placeholder.com/600x400?text=Buy+%26+Sell+General+Store";
       const match = String(url).match(/\/file\/d\/([a-zA-Z0-9_-]+)/) || String(url).match(/[?&]id=([a-zA-Z0-9_-]+)/);
@@ -580,6 +581,7 @@
       }
       return url;
     }
+
     function renderSections(items) {
       const sections = ["Furniture", "Electronics", "Appliances", "Clothing"];
       sections.forEach(sec => {
@@ -605,7 +607,14 @@
 
           return `
             <article class="card">
-              <img class="card-img" src="${img}" alt="${item.Title}" loading="lazy" />
+              <img
+                class="card-img"
+                src="${img}"
+                alt="${item.Title}"
+                loading="lazy"
+                referrerpolicy="no-referrer"
+                onerror="this.onerror=null;this.src='https://via.placeholder.com/600x400?text=Buy+%26+Sell+General+Store';"
+              />
               <div class="card-body">
                 <div class="card-meta">
                   <span class="badge-cond">${item.Condition || "Good"}</span>
